@@ -103,7 +103,9 @@ header h2 {
   font-size: 18px;
   cursor: pointer;
 }
-
+.control .btn:not(.btn-toggle-play):hover {
+  color: #fff;
+}
 .control .btn.active {
   color: var(--primary-color);
 }
