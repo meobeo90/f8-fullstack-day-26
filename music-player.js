@@ -188,14 +188,28 @@ const player = {
       this.shuffleBtn.classList.toggle("active", this.isShuffle);
       localStorage.setItem("isShuffle", this.isShuffle);
       if (this.isShuffle) {
+        // Tạo danh sách ngẫu nhiên mới
         this.createShuffleSongsList();
-        //Cập nhật currentIndex sau khi tạo danh sách mới
-        this.currentIndex = this.shuffleSongsList[0];
+        // Tìm chỉ mục của bài hát hiện tại trong danh sách ngẫu nhiên
+        const currentSongIndexInShuffle = this.shuffleSongsList.indexOf(
+          this.currentIndex
+        );
+        // Hoán đổi vị trí của bài hát hiện tại với bài hát đầu tiên trong danh sách ngẫu nhiên
+        if (currentSongIndexInShuffle > 0) {
+          [
+            this.shuffleSongsList[0],
+            this.shuffleSongsList[currentSongIndexInShuffle],
+          ] = [
+            this.shuffleSongsList[currentSongIndexInShuffle],
+            this.shuffleSongsList[0],
+          ];
+        }
+        // Đặt lại chỉ mục ngẫu nhiên về 0 để bắt đầu từ bài hát hiện tại
+        this.shuffleIndex = 0;
       } else {
-        //Khi tắt shuffle, tìm lại chỉ mục của bài hát hiện tại trong mảng gốc
+        // Khi tắt shuffle, tìm lại chỉ mục của bài hát hiện tại trong mảng gốc
         this.currentIndex = this.songs.indexOf(this.getCurrentSong());
       }
-
       this.render();
     });
 
