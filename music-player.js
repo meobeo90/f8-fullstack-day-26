@@ -111,11 +111,17 @@ const player = {
     this.shuffleBtn.classList.toggle("active", this.isShuffle);
     this.repeatBtn.classList.toggle("active", this.isRepeat);
 
-    // Nếu chế độ shuffle đang bật, cần đồng bộ lại shuffleIndex
+    // Nếu chế độ shuffle đang bật, đồng bộ lại shuffleIndex
     if (this.isShuffle) {
       this.createShuffleSongsList();
       const indexInShuffle = this.shuffleSongsList.indexOf(this.currentIndex);
-      this.shuffleIndex = indexInShuffle === -1 ? 0 : indexInShuffle;
+      if (indexInShuffle !== -1) {
+        [this.shuffleSongsList[0], this.shuffleSongsList[indexInShuffle]] = [
+          this.shuffleSongsList[indexInShuffle],
+          this.shuffleSongsList[0],
+        ];
+      }
+      this.shuffleIndex = 0;
     }
     this.loadCurrentSong();
 
@@ -189,6 +195,7 @@ const player = {
         //Khi tắt shuffle, tìm lại chỉ mục của bài hát hiện tại trong mảng gốc
         this.currentIndex = this.songs.indexOf(this.getCurrentSong());
       }
+
       this.render();
     });
 
